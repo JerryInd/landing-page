@@ -1,2223 +1,1170 @@
-<!DOCTYPE html>
-<html lang="en">
+!DOCTYPE html
+html lang=en
+head
+meta charset=UTF-8 
+meta name=viewport content=width=device-width, initial-scale=1.0
+titleAmiBoa – Smart Home Solutionstitle
+link rel=preconnect href=httpsfonts.googleapis.com
+link rel=preconnect href=httpsfonts.gstatic.com crossorigin
+link href=httpsfonts.googleapis.comcss2family=Synewght@400;500;600;700;800&family=DM+Sansital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap rel=stylesheet
+style
+  root {
+    --bg #08090d;
+    --surface #0f1117;
+    --surface2 #161820;
+    --border rgba(255,255,255,0.07);
+    --accent #00d4aa;
+    --accent2 #0099ff;
+    --accent-glow rgba(0,212,170,0.18);
+    --text #f0f2f7;
+    --muted #7a7f94;
+    --white #ffffff;
+    --nav-h 72px;
+    --font-display 'Syne', sans-serif;
+    --font-body 'DM Sans', sans-serif;
+    --radius 16px;
+    --radius-sm 8px;
+  }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AmiBoa – Smart Home Solutions</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-    <style>
-        :root {
-            --bg: #08090d;
-            --surface: #0f1117;
-            --surface2: #161820;
-            --border: rgba(255, 255, 255, 0.07);
-            --accent: #00d4aa;
-            --accent2: #0099ff;
-            --accent-glow: rgba(0, 212, 170, 0.18);
-            --text: #f0f2f7;
-            --muted: #7a7f94;
-            --white: #ffffff;
-            --nav-h: 72px;
-            --font-display: 'Syne', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --radius: 16px;
-            --radius-sm: 8px;
-        }
+  , before, after { box-sizing border-box; margin 0; padding 0; }
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  html { scroll-behavior smooth; font-size 16px; }
 
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+  body {
+    background var(--bg);
+    color var(--text);
+    font-family var(--font-body);
+    line-height 1.6;
+    overflow-x hidden;
+  }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font-body);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+   ── SCROLLBAR ── 
+  -webkit-scrollbar { width 5px; }
+  -webkit-scrollbar-track { background var(--bg); }
+  -webkit-scrollbar-thumb { background var(--accent); border-radius 4px; }
 
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
+   ── NAV ── 
+  nav {
+    position fixed; top 0; left 0; right 0; z-index 999;
+    height var(--nav-h);
+    display flex; align-items center;
+    padding 0 5%;
+    background rgba(8,9,13,0.75);
+    backdrop-filter blur(18px);
+    border-bottom 1px solid var(--border);
+    transition background 0.3s;
+  }
+  .nav-inner {
+    width 100%; max-width 1280px; margin 0 auto;
+    display flex; align-items center; justify-content space-between;
+  }
+  .logo {
+    font-family var(--font-display);
+    font-size 1.65rem; font-weight 800;
+    color var(--white); letter-spacing -0.03em;
+    text-decoration none;
+    display flex; align-items center; gap 8px;
+  }
+  .logo-dot { color var(--accent); }
+  .logo-icon {
+    width 34px; height 34px;
+    background linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius 8px;
+    display grid; place-items center;
+  }
+  .logo-icon svg { width 20px; height 20px; fill #fff; }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
+  .nav-links {
+    display flex; align-items center; gap 2px;
+    list-style none;
+  }
+  .nav-links a {
+    color var(--muted); text-decoration none;
+    font-size 0.92rem; font-weight 500; letter-spacing 0.01em;
+    padding 8px 18px; border-radius 50px;
+    transition color 0.2s, background 0.2s;
+  }
+  .nav-links ahover, .nav-links a.active {
+    color var(--white);
+    background rgba(255,255,255,0.06);
+  }
+  .nav-cta {
+    background linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+    color #000 !important; font-weight 600 !important;
+    padding 9px 22px !important; border-radius 50px !important;
+    transition opacity 0.2s, transform 0.2s !important;
+  }
+  .nav-ctahover { opacity 0.85; transform scale(1.03) !important; background linear-gradient(135deg, var(--accent), var(--accent2)) !important; }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
+  .hamburger { display none; flex-direction column; gap 5px; cursor pointer; padding 4px; }
+  .hamburger span { display block; width 24px; height 2px; background var(--text); border-radius 2px; transition all 0.3s; }
 
-        /* ── NAV ── */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            height: var(--nav-h);
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            background: rgba(8, 9, 13, 0.75);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border);
-            transition: background 0.3s;
-        }
+   ── PAGES ── 
+  .page { display none; min-height 100vh; }
+  .page.active { display block; }
 
-        .nav-inner {
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+   ── SECTION UTILITY ── 
+  .section {
+    padding 96px 5%;
+    max-width 1280px;
+    margin 0 auto;
+  }
+  .section-tag {
+    display inline-flex; align-items center; gap 8px;
+    font-size 0.78rem; font-weight 600; letter-spacing 0.12em;
+    text-transform uppercase; color var(--accent);
+    background rgba(0,212,170,0.1); border 1px solid rgba(0,212,170,0.2);
+    padding 6px 14px; border-radius 50px; margin-bottom 20px;
+  }
+  h1,h2,h3,h4 { font-family var(--font-display); line-height 1.1; }
+  .section-heading {
+    font-size clamp(2rem, 4vw, 3.2rem);
+    font-weight 800; letter-spacing -0.04em;
+    color var(--white); margin-bottom 16px;
+  }
+  .section-sub {
+    font-size 1.05rem; color var(--muted); max-width 520px;
+    line-height 1.7;
+  }
 
-        .logo {
-            font-family: var(--font-display);
-            font-size: 1.65rem;
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: -0.03em;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+   ── GRADIENT TEXT ── 
+  .grad-text {
+    background linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip text; -webkit-text-fill-color transparent;
+    background-clip text;
+  }
 
-        .logo-dot {
-            color: var(--accent);
-        }
-
-        .logo-icon {
-            width: 34px;
-            height: 34px;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border-radius: 8px;
-            display: grid;
-            place-items: center;
-        }
-
-        .logo-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: #fff;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.92rem;
-            font-weight: 500;
-            letter-spacing: 0.01em;
-            padding: 8px 18px;
-            border-radius: 50px;
-            transition: color 0.2s, background 0.2s;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--white);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-cta {
-            background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
-            color: #000 !important;
-            font-weight: 600 !important;
-            padding: 9px 22px !important;
-            border-radius: 50px !important;
-            transition: opacity 0.2s, transform 0.2s !important;
-        }
-
-        .nav-cta:hover {
-            opacity: 0.85;
-            transform: scale(1.03) !important;
-            background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.3s;
-        }
-
-        /* ── PAGES ── */
-        .page {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* ── SECTION UTILITY ── */
-        .section {
-            padding: 96px 5%;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .section-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: rgba(0, 212, 170, 0.1);
-            border: 1px solid rgba(0, 212, 170, 0.2);
-            padding: 6px 14px;
-            border-radius: 50px;
-            margin-bottom: 20px;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: var(--font-display);
-            line-height: 1.1;
-        }
-
-        .section-heading {
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-
-        .section-sub {
-            font-size: 1.05rem;
-            color: var(--muted);
-            max-width: 520px;
-            line-height: 1.7;
-        }
-
-        /* ── GRADIENT TEXT ── */
-        .grad-text {
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* ════════════════════════════════════════════
+   ════════════════════════════════════════════
      HOME PAGE
-  ════════════════════════════════════════════ */
-        #home {
-            padding-top: var(--nav-h);
-        }
+  ════════════════════════════════════════════ 
+  #home { padding-top var(--nav-h); }
 
-        /* Hero */
-        .hero {
-            min-height: calc(100vh - var(--nav-h));
-            display: flex;
-            align-items: center;
-            padding: 80px 5% 80px;
-            position: relative;
-            overflow: hidden;
-        }
+   Hero 
+  .hero {
+    min-height calc(100vh - var(--nav-h));
+    display flex; align-items center;
+    padding 80px 5% 80px;
+    position relative; overflow hidden;
+  }
+  .herobefore {
+    content '';
+    position absolute; inset 0;
+    background radial-gradient(ellipse 70% 60% at 70% 50%, rgba(0,153,255,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 50% at 30% 30%, rgba(0,212,170,0.1) 0%, transparent 60%);
+    pointer-events none;
+  }
+  .hero-grid {
+    display grid; grid-template-columns 1fr 1fr;
+    gap 60px; align-items center;
+    max-width 1280px; margin 0 auto; width 100%;
+  }
+  .hero-tag {
+    display inline-flex; align-items center; gap 8px;
+    font-size 0.78rem; font-weight 600; letter-spacing 0.1em;
+    text-transform uppercase; color var(--accent);
+    background rgba(0,212,170,0.08); border 1px solid rgba(0,212,170,0.2);
+    padding 6px 14px; border-radius 50px; margin-bottom 24px;
+    animation fadeUp 0.6s ease both;
+  }
+  .hero-tagbefore { content '●'; font-size 0.5rem; animation pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity1} 50%{opacity0.3} }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(0, 153, 255, 0.12) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 50% at 30% 30%, rgba(0, 212, 170, 0.1) 0%, transparent 60%);
-            pointer-events: none;
-        }
+  .hero h1 {
+    font-size clamp(2.5rem, 5.5vw, 4.4rem);
+    font-weight 800; letter-spacing -0.05em;
+    color var(--white); margin-bottom 22px;
+    animation fadeUp 0.6s 0.1s ease both;
+  }
+  .hero p {
+    font-size 1.1rem; color var(--muted); max-width 480px;
+    line-height 1.75; margin-bottom 36px;
+    animation fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-btns {
+    display flex; gap 14px; flex-wrap wrap;
+    animation fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background linear-gradient(135deg, var(--accent), var(--accent2));
+    color #000; font-weight 700; font-size 0.95rem;
+    padding 14px 28px; border-radius 50px; border none;
+    cursor pointer; font-family var(--font-display);
+    letter-spacing 0.01em;
+    transition transform 0.2s, box-shadow 0.2s;
+    text-decoration none; display inline-block;
+  }
+  .btn-primaryhover {
+    transform translateY(-2px);
+    box-shadow 0 12px 32px rgba(0,212,170,0.3);
+  }
+  .btn-outline {
+    background transparent; color var(--white);
+    font-weight 600; font-size 0.95rem;
+    padding 13px 28px; border-radius 50px;
+    border 1px solid var(--border); cursor pointer;
+    font-family var(--font-display);
+    transition border-color 0.2s, background 0.2s;
+    text-decoration none; display inline-block;
+  }
+  .btn-outlinehover { border-color var(--accent); background rgba(0,212,170,0.05); }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            max-width: 1280px;
-            margin: 0 auto;
-            width: 100%;
-        }
+   Hero visual 
+  .hero-visual {
+    display flex; justify-content center; align-items center;
+    animation fadeUp 0.8s 0.2s ease both;
+  }
+  .house-card {
+    background var(--surface);
+    border 1px solid var(--border);
+    border-radius 28px; padding 28px;
+    width 100%; max-width 460px;
+    box-shadow 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+    position relative; overflow hidden;
+  }
+  .house-cardbefore {
+    content ''; position absolute;
+    top -60px; right -60px;
+    width 200px; height 200px;
+    background radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%);
+    border-radius 50%;
+  }
+  .house-card-header {
+    display flex; align-items center; justify-content space-between;
+    margin-bottom 24px;
+  }
+  .house-card-title { font-family var(--font-display); font-size 1.05rem; font-weight 700; color var(--white); }
+  .house-status {
+    display flex; align-items center; gap 6px;
+    font-size 0.78rem; color var(--accent); font-weight 600;
+  }
+  .status-dot { width 6px; height 6px; background var(--accent); border-radius 50%; animation pulse 2s infinite; }
 
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: rgba(0, 212, 170, 0.08);
-            border: 1px solid rgba(0, 212, 170, 0.2);
-            padding: 6px 14px;
-            border-radius: 50px;
-            margin-bottom: 24px;
-            animation: fadeUp 0.6s ease both;
-        }
+  .room-grid { display grid; grid-template-columns 1fr 1fr; gap 12px; margin-bottom 20px; }
+  .room-tile {
+    background var(--surface2);
+    border 1px solid var(--border);
+    border-radius 14px; padding 16px;
+    cursor pointer; transition border-color 0.2s, transform 0.2s;
+  }
+  .room-tilehover { border-color var(--accent); transform scale(1.02); }
+  .room-tile.on { border-color rgba(0,212,170,0.4); background rgba(0,212,170,0.06); }
+  .room-icon { font-size 1.5rem; margin-bottom 8px; }
+  .room-name { font-size 0.78rem; color var(--muted); font-weight 500; margin-bottom 4px; }
+  .room-val { font-family var(--font-display); font-size 1rem; font-weight 700; color var(--white); }
+  .toggle { width 36px; height 20px; background var(--border); border-radius 10px; position relative; cursor pointer; transition background 0.2s; margin-top 8px; }
+  .toggle.active { background var(--accent); }
+  .toggleafter { content ''; position absolute; top 3px; left 3px; width 14px; height 14px; background #fff; border-radius 50%; transition transform 0.2s; }
+  .toggle.activeafter { transform translateX(16px); }
 
-        .hero-tag::before {
-            content: '●';
-            font-size: 0.5rem;
-            animation: pulse 2s infinite;
-        }
+  .energy-bar { background var(--surface2); border 1px solid var(--border); border-radius 14px; padding 16px; }
+  .energy-label { display flex; justify-content space-between; align-items center; margin-bottom 10px; }
+  .energy-label spanfirst-child { font-size 0.82rem; color var(--muted); font-weight 500; }
+  .energy-label spanlast-child { font-family var(--font-display); font-size 0.95rem; color var(--accent); font-weight 700; }
+  .bar-track { height 8px; background rgba(255,255,255,0.06); border-radius 4px; overflow hidden; }
+  .bar-fill { height 100%; width 62%; background linear-gradient(90deg, var(--accent), var(--accent2)); border-radius 4px; }
 
-        @keyframes pulse {
+   Stats row 
+  .stats-row {
+    display grid; grid-template-columns repeat(4,1fr);
+    gap 1px; background var(--border);
+    border 1px solid var(--border); border-radius var(--radius);
+    overflow hidden; margin 0 5% 0;
+    max-width 1280px; margin-left auto; margin-right auto;
+    margin-bottom 0;
+  }
+  .stat-item {
+    background var(--surface); padding 36px 28px;
+    text-align center;
+  }
+  .stat-num {
+    font-family var(--font-display); font-size 2.6rem; font-weight 800;
+    letter-spacing -0.04em; color var(--white); margin-bottom 6px;
+  }
+  .stat-label { font-size 0.85rem; color var(--muted); font-weight 400; }
 
-            0%,
-            100% {
-                opacity: 1
-            }
+   Features 
+  .features-grid { display grid; grid-template-columns repeat(3,1fr); gap 20px; margin-top 56px; }
+  .feature-card {
+    background var(--surface); border 1px solid var(--border);
+    border-radius var(--radius); padding 32px;
+    transition border-color 0.3s, transform 0.3s;
+    position relative; overflow hidden;
+  }
+  .feature-cardafter {
+    content ''; position absolute; bottom 0; left 0; right 0;
+    height 2px; background linear-gradient(90deg, var(--accent), var(--accent2));
+    transform scaleX(0); transform-origin left; transition transform 0.3s;
+  }
+  .feature-cardhover { border-color rgba(0,212,170,0.3); transform translateY(-4px); }
+  .feature-cardhoverafter { transform scaleX(1); }
+  .feature-icon {
+    width 52px; height 52px; border-radius 14px;
+    background rgba(0,212,170,0.1); border 1px solid rgba(0,212,170,0.15);
+    display grid; place-items center; font-size 1.5rem; margin-bottom 20px;
+  }
+  .feature-card h3 { font-size 1.05rem; font-weight 700; color var(--white); margin-bottom 10px; }
+  .feature-card p { font-size 0.9rem; color var(--muted); line-height 1.65; }
 
-            50% {
-                opacity: 0.3
-            }
-        }
+   CTA strip 
+  .cta-strip {
+    margin 96px 5%;
+    max-width 1280px; margin-left auto; margin-right auto;
+    background linear-gradient(135deg, rgba(0,212,170,0.12), rgba(0,153,255,0.12));
+    border 1px solid rgba(0,212,170,0.2);
+    border-radius 28px; padding 64px 60px;
+    display flex; align-items center; justify-content space-between;
+    gap 32px; flex-wrap wrap;
+    position relative; overflow hidden;
+  }
+  .cta-stripbefore {
+    content ''; position absolute; top -80px; right -80px;
+    width 300px; height 300px;
+    background radial-gradient(circle, rgba(0,153,255,0.15), transparent 70%);
+  }
+  .cta-strip h2 { font-size clamp(1.6rem, 3vw, 2.4rem); font-weight 800; letter-spacing -0.04em; color var(--white); }
+  .cta-strip p { color var(--muted); margin-top 8px; font-size 1rem; }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 5.5vw, 4.4rem);
-            font-weight: 800;
-            letter-spacing: -0.05em;
-            color: var(--white);
-            margin-bottom: 22px;
-            animation: fadeUp 0.6s 0.1s ease both;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--muted);
-            max-width: 480px;
-            line-height: 1.75;
-            margin-bottom: 36px;
-            animation: fadeUp 0.6s 0.2s ease both;
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-            animation: fadeUp 0.6s 0.3s ease both;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: #000;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-family: var(--font-display);
-            letter-spacing: 0.01em;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(0, 212, 170, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--white);
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 13px 28px;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            font-family: var(--font-display);
-            transition: border-color 0.2s, background 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--accent);
-            background: rgba(0, 212, 170, 0.05);
-        }
-
-        /* Hero visual */
-        .hero-visual {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeUp 0.8s 0.2s ease both;
-        }
-
-        .house-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 28px;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .house-card::before {
-            content: '';
-            position: absolute;
-            top: -60px;
-            right: -60px;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(0, 212, 170, 0.15), transparent 70%);
-            border-radius: 50%;
-        }
-
-        .house-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .house-card-title {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .house-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.78rem;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .room-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .room-tile {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            cursor: pointer;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .room-tile:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
-        }
-
-        .room-tile.on {
-            border-color: rgba(0, 212, 170, 0.4);
-            background: rgba(0, 212, 170, 0.06);
-        }
-
-        .room-icon {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-
-        .room-name {
-            font-size: 0.78rem;
-            color: var(--muted);
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .room-val {
-            font-family: var(--font-display);
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .toggle {
-            width: 36px;
-            height: 20px;
-            background: var(--border);
-            border-radius: 10px;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 8px;
-        }
-
-        .toggle.active {
-            background: var(--accent);
-        }
-
-        .toggle::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 14px;
-            height: 14px;
-            background: #fff;
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-
-        .toggle.active::after {
-            transform: translateX(16px);
-        }
-
-        .energy-bar {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-        }
-
-        .energy-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .energy-label span:first-child {
-            font-size: 0.82rem;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .energy-label span:last-child {
-            font-family: var(--font-display);
-            font-size: 0.95rem;
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .bar-track {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            width: 62%;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            border-radius: 4px;
-        }
-
-        /* Stats row */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin: 0 5% 0;
-            max-width: 1280px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 0;
-        }
-
-        .stat-item {
-            background: var(--surface);
-            padding: 36px 28px;
-            text-align: center;
-        }
-
-        .stat-num {
-            font-family: var(--font-display);
-            font-size: 2.6rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            color: var(--white);
-            margin-bottom: 6px;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-weight: 400;
-        }
-
-        /* Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 56px;
-        }
-
-        .feature-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 32px;
-            transition: border-color 0.3s, transform 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(0, 212, 170, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .feature-card:hover::after {
-            transform: scaleX(1);
-        }
-
-        .feature-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            background: rgba(0, 212, 170, 0.1);
-            border: 1px solid rgba(0, 212, 170, 0.15);
-            display: grid;
-            place-items: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            font-size: 0.9rem;
-            color: var(--muted);
-            line-height: 1.65;
-        }
-
-        /* CTA strip */
-        .cta-strip {
-            margin: 96px 5%;
-            max-width: 1280px;
-            margin-left: auto;
-            margin-right: auto;
-            background: linear-gradient(135deg, rgba(0, 212, 170, 0.12), rgba(0, 153, 255, 0.12));
-            border: 1px solid rgba(0, 212, 170, 0.2);
-            border-radius: 28px;
-            padding: 64px 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 32px;
-            flex-wrap: wrap;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-strip::before {
-            content: '';
-            position: absolute;
-            top: -80px;
-            right: -80px;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 153, 255, 0.15), transparent 70%);
-        }
-
-        .cta-strip h2 {
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            color: var(--white);
-        }
-
-        .cta-strip p {
-            color: var(--muted);
-            margin-top: 8px;
-            font-size: 1rem;
-        }
-
-        /* ════════════════════════════════════════════
+   ════════════════════════════════════════════
      ABOUT PAGE
-  ════════════════════════════════════════════ */
-        #about {
-            padding-top: var(--nav-h);
-        }
+  ════════════════════════════════════════════ 
+  #about { padding-top var(--nav-h); }
+  .about-hero {
+    padding 80px 5% 60px;
+    max-width 1280px; margin 0 auto;
+    display grid; grid-template-columns 1fr 1fr; gap 80px; align-items center;
+  }
+  .about-visual {
+    display grid; grid-template-columns 1fr 1fr; gap 14px;
+  }
+  .about-tile {
+    background var(--surface); border 1px solid var(--border);
+    border-radius var(--radius); padding 24px;
+    text-align center;
+  }
+  .about-tilefirst-child { grid-column 1-1; }
+  .about-tile .big { font-family var(--font-display); font-size 2rem; font-weight 800; color var(--accent); }
+  .about-tile .lbl { font-size 0.82rem; color var(--muted); margin-top 4px; }
+  .values-grid { display grid; grid-template-columns 1fr 1fr; gap 16px; margin-top 48px; }
+  .value-card {
+    background var(--surface); border 1px solid var(--border);
+    border-radius var(--radius-sm); padding 24px;
+    display flex; gap 16px; align-items flex-start;
+  }
+  .value-icon { font-size 1.5rem; flex-shrink 0; }
+  .value-card h4 { font-size 0.95rem; font-weight 700; color var(--white); margin-bottom 6px; }
+  .value-card p { font-size 0.85rem; color var(--muted); line-height 1.6; }
 
-        .about-hero {
-            padding: 80px 5% 60px;
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
+   Team section 
+  .team-grid { display grid; grid-template-columns repeat(3, 1fr); gap 24px; margin-top 56px; }
+  .team-card {
+    background var(--surface); border 1px solid var(--border);
+    border-radius var(--radius); padding 32px; text-align center;
+    transition border-color 0.3s;
+  }
+  .team-cardhover { border-color rgba(0,212,170,0.3); }
+  .avatar {
+    width 72px; height 72px; border-radius 50%;
+    background linear-gradient(135deg, var(--accent), var(--accent2));
+    display flex; align-items center; justify-content center;
+    font-family var(--font-display); font-size 1.4rem; font-weight 800;
+    color #000; margin 0 auto 16px;
+  }
+  .team-card h3 { font-size 1rem; font-weight 700; color var(--white); margin-bottom 4px; }
+  .team-card .role { font-size 0.82rem; color var(--accent); font-weight 500; margin-bottom 12px; }
+  .team-card p { font-size 0.85rem; color var(--muted); line-height 1.6; }
 
-        .about-visual {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .about-tile {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-            text-align: center;
-        }
-
-        .about-tile:first-child {
-            grid-column: 1/-1;
-        }
-
-        .about-tile .big {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-
-        .about-tile .lbl {
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-top: 4px;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 48px;
-        }
-
-        .value-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 24px;
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-        }
-
-        .value-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .value-card h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 6px;
-        }
-
-        .value-card p {
-            font-size: 0.85rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        /* Team section */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 56px;
-        }
-
-        .team-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 32px;
-            text-align: center;
-            transition: border-color 0.3s;
-        }
-
-        .team-card:hover {
-            border-color: rgba(0, 212, 170, 0.3);
-        }
-
-        .avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #000;
-            margin: 0 auto 16px;
-        }
-
-        .team-card h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 4px;
-        }
-
-        .team-card .role {
-            font-size: 0.82rem;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-
-        .team-card p {
-            font-size: 0.85rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        /* ════════════════════════════════════════════
+   ════════════════════════════════════════════
      SERVICES PAGE
-  ════════════════════════════════════════════ */
-        #services {
-            padding-top: var(--nav-h);
-        }
+  ════════════════════════════════════════════ 
+  #services { padding-top var(--nav-h); }
+  .services-intro { padding 80px 5% 0; max-width 1280px; margin 0 auto; }
+  .services-big-grid {
+    display grid; grid-template-columns 1fr 1fr; gap 24px;
+    padding 48px 5%; max-width 1280px; margin 0 auto;
+  }
+  .service-card-big {
+    background var(--surface); border 1px solid var(--border);
+    border-radius 24px; padding 40px; overflow hidden;
+    position relative; transition border-color 0.3s, transform 0.3s;
+  }
+  .service-card-bighover { border-color rgba(0,212,170,0.3); transform translateY(-4px); }
+  .service-card-bignth-child(1) { grid-column 1-1; display grid; grid-template-columns 1fr 1fr; gap 32px; align-items center; }
+  .service-num {
+    font-family var(--font-display); font-size 4rem; font-weight 800;
+    color rgba(0,212,170,0.12); letter-spacing -0.04em; margin-bottom 16px;
+  }
+  .service-card-big h3 { font-size 1.3rem; font-weight 700; color var(--white); margin-bottom 12px; }
+  .service-card-big p { font-size 0.92rem; color var(--muted); line-height 1.7; margin-bottom 20px; }
+  .service-tags { display flex; flex-wrap wrap; gap 8px; }
+  .service-tag {
+    font-size 0.75rem; color var(--accent); font-weight 600;
+    background rgba(0,212,170,0.08); border 1px solid rgba(0,212,170,0.15);
+    padding 4px 12px; border-radius 50px;
+  }
+  .service-visual {
+    background var(--surface2); border-radius 16px; padding 28px;
+    border 1px solid var(--border);
+  }
 
-        .services-intro {
-            padding: 80px 5% 0;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
+   Process 
+  .process-section { padding 80px 5%; max-width 1280px; margin 0 auto; }
+  .process-steps { display grid; grid-template-columns repeat(4,1fr); gap 24px; margin-top 56px; position relative; }
+  .process-stepsbefore {
+    content ''; position absolute; top 28px; left 10%; right 10%;
+    height 1px; background linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .process-step { text-align center; padding-top 8px; }
+  .step-circle {
+    width 56px; height 56px; border-radius 50%;
+    background linear-gradient(135deg, var(--accent), var(--accent2));
+    display grid; place-items center;
+    font-family var(--font-display); font-size 1.1rem; font-weight 800; color #000;
+    margin 0 auto 20px;
+  }
+  .process-step h4 { font-size 0.95rem; font-weight 700; color var(--white); margin-bottom 8px; }
+  .process-step p { font-size 0.82rem; color var(--muted); line-height 1.6; }
 
-        .services-big-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            padding: 48px 5%;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .service-card-big {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 40px;
-            overflow: hidden;
-            position: relative;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-
-        .service-card-big:hover {
-            border-color: rgba(0, 212, 170, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .service-card-big:nth-child(1) {
-            grid-column: 1/-1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .service-num {
-            font-family: var(--font-display);
-            font-size: 4rem;
-            font-weight: 800;
-            color: rgba(0, 212, 170, 0.12);
-            letter-spacing: -0.04em;
-            margin-bottom: 16px;
-        }
-
-        .service-card-big h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 12px;
-        }
-
-        .service-card-big p {
-            font-size: 0.92rem;
-            color: var(--muted);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .service-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .service-tag {
-            font-size: 0.75rem;
-            color: var(--accent);
-            font-weight: 600;
-            background: rgba(0, 212, 170, 0.08);
-            border: 1px solid rgba(0, 212, 170, 0.15);
-            padding: 4px 12px;
-            border-radius: 50px;
-        }
-
-        .service-visual {
-            background: var(--surface2);
-            border-radius: 16px;
-            padding: 28px;
-            border: 1px solid var(--border);
-        }
-
-        /* Process */
-        .process-section {
-            padding: 80px 5%;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-top: 56px;
-            position: relative;
-        }
-
-        .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 28px;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .process-step {
-            text-align: center;
-            padding-top: 8px;
-        }
-
-        .step-circle {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            display: grid;
-            place-items: center;
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #000;
-            margin: 0 auto 20px;
-        }
-
-        .process-step h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 8px;
-        }
-
-        .process-step p {
-            font-size: 0.82rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        /* ════════════════════════════════════════════
+   ════════════════════════════════════════════
      CONTACT PAGE
-  ════════════════════════════════════════════ */
-        #contact {
-            padding-top: var(--nav-h);
-        }
-
-        .contact-wrap {
-            padding: 80px 5%;
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.6fr;
-            gap: 64px;
-            align-items: start;
-        }
-
-        .contact-info h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-
-        .contact-info p {
-            color: var(--muted);
-            line-height: 1.7;
-            margin-bottom: 40px;
-        }
-
-        .contact-detail {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .contact-detail-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            flex-shrink: 0;
-            background: rgba(0, 212, 170, 0.1);
-            border: 1px solid rgba(0, 212, 170, 0.15);
-            display: grid;
-            place-items: center;
-            font-size: 1.1rem;
-        }
-
-        .contact-detail-text .label {
-            font-size: 0.75rem;
-            color: var(--muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 4px;
-        }
-
-        .contact-detail-text .val {
-            color: var(--white);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .wa-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #25D366;
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 14px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-family: var(--font-display);
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .wa-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(37, 211, 102, 0.3);
-        }
-
-        .wa-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: #fff;
-        }
-
-        /* Form */
-        .contact-form-wrap {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 40px;
-        }
-
-        .contact-form-wrap h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 28px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            color: var(--text);
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            transition: border-color 0.2s;
-            outline: none;
-            appearance: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: var(--accent);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-group select option {
-            background: var(--surface);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: #000;
-            font-weight: 700;
-            font-family: var(--font-display);
-            font-size: 1rem;
-            padding: 14px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            letter-spacing: 0.01em;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(0, 212, 170, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .form-note {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-top: 12px;
-            text-align: center;
-        }
-
-        .success-msg {
-            display: none;
-            background: rgba(0, 212, 170, 0.1);
-            border: 1px solid rgba(0, 212, 170, 0.3);
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-top: 16px;
-            color: var(--accent);
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .error-msg {
-            display: none;
-            background: rgba(255, 80, 80, 0.1);
-            border: 1px solid rgba(255, 80, 80, 0.3);
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-top: 16px;
-            color: #ff5050;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        /* Map placeholder */
-        .map-wrap {
-            margin: 0 5% 80px;
-            max-width: 1280px;
-            margin-left: auto;
-            margin-right: auto;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            overflow: hidden;
-            height: 320px;
-            position: relative;
-        }
-
-        .map-wrap iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            filter: invert(0.9) hue-rotate(180deg);
-        }
-
-        .map-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(8, 9, 13, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px 18px;
-        }
-
-        .map-overlay strong {
-            font-family: var(--font-display);
-            color: var(--white);
-            font-size: 0.9rem;
-        }
-
-        .map-overlay p {
-            color: var(--muted);
-            font-size: 0.8rem;
-            margin-top: 2px;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 60px 5% 32px;
-        }
-
-        .footer-inner {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 48px;
-        }
-
-        .footer-brand p {
-            color: var(--muted);
-            font-size: 0.88rem;
-            line-height: 1.7;
-            margin-top: 14px;
-            max-width: 280px;
-        }
-
-        footer h4 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--muted);
-            margin-bottom: 18px;
-        }
-
-        footer ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        footer ul li a {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        footer ul li a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border);
-            padding-top: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .footer-bottom p {
-            font-size: 0.82rem;
-            color: var(--muted);
-        }
-
-        /* Floating WhatsApp */
-        .wa-float {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 998;
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            background: #25D366;
-            display: grid;
-            place-items: center;
-            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            animation: bounceIn 0.6s 1s ease both;
-        }
-
-        .wa-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
-        }
-
-        .wa-float svg {
-            width: 30px;
-            height: 30px;
-            fill: #fff;
-        }
-
-        .wa-float::before {
-            content: 'Chat with us!';
-            position: absolute;
-            right: 68px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text);
-            font-size: 0.8rem;
-            font-weight: 600;
-            white-space: nowrap;
-            padding: 6px 14px;
-            border-radius: 50px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-        }
-
-        .wa-float:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounceIn {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-
-            70% {
-                transform: scale(1.1);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 48px;
-            }
-
-            .hero-visual {
-                order: -1;
-            }
-
-            .house-card {
-                max-width: 420px;
-            }
-
-            .stats-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .about-hero {
-                grid-template-columns: 1fr;
-                gap: 48px;
-            }
-
-            .services-big-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .service-card-big:nth-child(1) {
-                grid-template-columns: 1fr;
-            }
-
-            .process-steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .process-steps::before {
-                display: none;
-            }
-
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .contact-wrap {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-top {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: var(--nav-h);
-                left: 0;
-                right: 0;
-                background: var(--surface);
-                border-bottom: 1px solid var(--border);
-                padding: 16px;
-                gap: 4px;
-            }
-
-            .nav-links.open {
-                display: flex;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-strip {
-                padding: 40px 28px;
-                flex-direction: column;
-            }
-
-            .footer-top {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 8px;
-                text-align: center;
-            }
-
-            .hero p {
-                max-width: 100%;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- NAV -->
-    <nav>
-        <div class="nav-inner">
-            <a href="#" class="logo" onclick="showPage('home')">
-  <img src="favicon.png" alt="AmiBoa Logo" class="logo-img">
-  <span>Ami<span class="logo-dot">Boa</span></span>
-</a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a></li>
-                <li><a href="#" onclick="showPage('about')" data-page="about">About</a></li>
-                <li><a href="#" onclick="showPage('services')" data-page="services">Services</a></li>
-                <li><a href="#" onclick="showPage('contact')" data-page="contact" class="nav-cta">Contact</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ══════════════════════════════
+  ════════════════════════════════════════════ 
+  #contact { padding-top var(--nav-h); }
+  .contact-wrap {
+    padding 80px 5%; max-width 1280px; margin 0 auto;
+    display grid; grid-template-columns 1fr 1.6fr; gap 64px; align-items start;
+  }
+  .contact-info h2 { font-size 2.2rem; font-weight 800; letter-spacing -0.04em; color var(--white); margin-bottom 16px; }
+  .contact-info p { color var(--muted); line-height 1.7; margin-bottom 40px; }
+  .contact-detail {
+    display flex; align-items flex-start; gap 16px; margin-bottom 24px;
+  }
+  .contact-detail-icon {
+    width 44px; height 44px; border-radius 12px; flex-shrink 0;
+    background rgba(0,212,170,0.1); border 1px solid rgba(0,212,170,0.15);
+    display grid; place-items center; font-size 1.1rem;
+  }
+  .contact-detail-text .label { font-size 0.75rem; color var(--muted); font-weight 600; text-transform uppercase; letter-spacing 0.08em; margin-bottom 4px; }
+  .contact-detail-text .val { color var(--white); font-size 0.95rem; font-weight 500; }
+
+  .wa-btn {
+    display inline-flex; align-items center; gap 10px;
+    background #25D366; color #fff; font-weight 700;
+    font-size 0.95rem; padding 14px 28px; border-radius 50px;
+    text-decoration none; font-family var(--font-display);
+    transition transform 0.2s, box-shadow 0.2s; margin-top 16px;
+    border none; cursor pointer;
+  }
+  .wa-btnhover { transform translateY(-2px); box-shadow 0 10px 28px rgba(37,211,102,0.3); }
+  .wa-btn svg { width 20px; height 20px; fill #fff; }
+
+   Form 
+  .contact-form-wrap {
+    background var(--surface); border 1px solid var(--border);
+    border-radius 24px; padding 40px;
+  }
+  .contact-form-wrap h3 { font-size 1.3rem; font-weight 700; color var(--white); margin-bottom 28px; }
+  .form-row { display grid; grid-template-columns 1fr 1fr; gap 16px; }
+  .form-group { margin-bottom 18px; }
+  .form-group label { display block; font-size 0.8rem; font-weight 600; color var(--muted); text-transform uppercase; letter-spacing 0.07em; margin-bottom 8px; }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width 100%; background var(--surface2); border 1px solid var(--border);
+    border-radius var(--radius-sm); padding 12px 16px;
+    color var(--text); font-family var(--font-body); font-size 0.95rem;
+    transition border-color 0.2s;
+    outline none; appearance none;
+  }
+  .form-group inputfocus,
+  .form-group textareafocus,
+  .form-group selectfocus { border-color var(--accent); }
+  .form-group textarea { resize vertical; min-height 120px; }
+  .form-group select option { background var(--surface); }
+  .submit-btn {
+    width 100%;
+    background linear-gradient(135deg, var(--accent), var(--accent2));
+    color #000; font-weight 700; font-family var(--font-display);
+    font-size 1rem; padding 14px; border-radius 50px; border none;
+    cursor pointer; transition transform 0.2s, box-shadow 0.2s;
+    letter-spacing 0.01em;
+  }
+  .submit-btnhover { transform translateY(-2px); box-shadow 0 12px 32px rgba(0,212,170,0.3); }
+  .submit-btndisabled { opacity 0.6; cursor not-allowed; transform none !important; }
+
+  .form-note { font-size 0.8rem; color var(--muted); margin-top 12px; text-align center; }
+  .success-msg {
+    display none; background rgba(0,212,170,0.1); border 1px solid rgba(0,212,170,0.3);
+    border-radius var(--radius-sm); padding 16px; margin-top 16px;
+    color var(--accent); font-size 0.9rem; text-align center;
+  }
+  .error-msg {
+    display none; background rgba(255,80,80,0.1); border 1px solid rgba(255,80,80,0.3);
+    border-radius var(--radius-sm); padding 16px; margin-top 16px;
+    color #ff5050; font-size 0.9rem; text-align center;
+  }
+
+   Map placeholder 
+  .map-wrap {
+    margin 0 5% 80px; max-width 1280px; margin-left auto; margin-right auto;
+    background var(--surface); border 1px solid var(--border);
+    border-radius 24px; overflow hidden; height 320px;
+    position relative;
+  }
+  .map-wrap iframe { width 100%; height 100%; border none; filter invert(0.9) hue-rotate(180deg); }
+  .map-overlay {
+    position absolute; bottom 20px; left 20px;
+    background rgba(8,9,13,0.85); backdrop-filter blur(12px);
+    border 1px solid var(--border); border-radius 14px; padding 14px 18px;
+  }
+  .map-overlay strong { font-family var(--font-display); color var(--white); font-size 0.9rem; }
+  .map-overlay p { color var(--muted); font-size 0.8rem; margin-top 2px; }
+
+   ── FOOTER ── 
+  footer {
+    background var(--surface); border-top 1px solid var(--border);
+    padding 60px 5% 32px;
+  }
+  .footer-inner { max-width 1280px; margin 0 auto; }
+  .footer-top { display grid; grid-template-columns 1.5fr 1fr 1fr 1fr; gap 40px; margin-bottom 48px; }
+  .footer-brand p { color var(--muted); font-size 0.88rem; line-height 1.7; margin-top 14px; max-width 280px; }
+  footer h4 { font-size 0.8rem; font-weight 700; text-transform uppercase; letter-spacing 0.1em; color var(--muted); margin-bottom 18px; }
+  footer ul { list-style none; display flex; flex-direction column; gap 10px; }
+  footer ul li a { color var(--text); text-decoration none; font-size 0.9rem; transition color 0.2s; }
+  footer ul li ahover { color var(--accent); }
+  .footer-bottom { border-top 1px solid var(--border); padding-top 24px; display flex; align-items center; justify-content space-between; }
+  .footer-bottom p { font-size 0.82rem; color var(--muted); }
+
+   Floating WhatsApp 
+  .wa-float {
+    position fixed; bottom 28px; right 28px; z-index 998;
+    width 58px; height 58px; border-radius 50%;
+    background #25D366;
+    display grid; place-items center;
+    box-shadow 0 8px 24px rgba(37,211,102,0.4);
+    text-decoration none;
+    transition transform 0.2s, box-shadow 0.2s;
+    animation bounceIn 0.6s 1s ease both;
+  }
+  .wa-floathover { transform scale(1.1); box-shadow 0 12px 32px rgba(37,211,102,0.5); }
+  .wa-float svg { width 30px; height 30px; fill #fff; }
+  .wa-floatbefore {
+    content 'Chat with us!';
+    position absolute; right 68px; top 50%; transform translateY(-50%);
+    background var(--surface); border 1px solid var(--border);
+    color var(--text); font-size 0.8rem; font-weight 600; white-space nowrap;
+    padding 6px 14px; border-radius 50px; opacity 0; pointer-events none;
+    transition opacity 0.2s;
+  }
+  .wa-floathoverbefore { opacity 1; }
+
+  @keyframes fadeUp { from { opacity0; transform translateY(24px); } to { opacity1; transform translateY(0); } }
+  @keyframes bounceIn { from { opacity0; transform scale(0.5); } 70% { transform scale(1.1); } to { opacity1; transform scale(1); } }
+
+   ── RESPONSIVE ── 
+  @media (max-width 1024px) {
+    .hero-grid { grid-template-columns 1fr; gap 48px; }
+    .hero-visual { order -1; }
+    .house-card { max-width 420px; }
+    .stats-row { grid-template-columns repeat(2,1fr); }
+    .features-grid { grid-template-columns repeat(2,1fr); }
+    .about-hero { grid-template-columns 1fr; gap 48px; }
+    .services-big-grid { grid-template-columns 1fr; }
+    .service-card-bignth-child(1) { grid-template-columns 1fr; }
+    .process-steps { grid-template-columns repeat(2,1fr); }
+    .process-stepsbefore { display none; }
+    .team-grid { grid-template-columns repeat(2,1fr); }
+    .contact-wrap { grid-template-columns 1fr; }
+    .footer-top { grid-template-columns 1fr 1fr; }
+  }
+  @media (max-width 768px) {
+    .nav-links { display none; flex-direction column; position absolute; top var(--nav-h); left 0; right 0; background var(--surface); border-bottom 1px solid var(--border); padding 16px; gap 4px; }
+    .nav-links.open { display flex; }
+    .hamburger { display flex; }
+    .features-grid { grid-template-columns 1fr; }
+    .values-grid { grid-template-columns 1fr; }
+    .form-row { grid-template-columns 1fr; }
+    .team-grid { grid-template-columns 1fr; }
+    .cta-strip { padding 40px 28px; flex-direction column; }
+    .footer-top { grid-template-columns 1fr; }
+    .footer-bottom { flex-direction column; gap 8px; text-align center; }
+    .hero p { max-width 100%; }
+  }
+style
+head
+body
+
+!-- NAV --
+nav
+  div class=nav-inner
+    a href=# class=logo onclick=showPage('home')
+      div class=logo-icon
+        svg viewBox=0 0 24 24 xmlns=httpwww.w3.org2000svgpath d=M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8zsvg
+      div
+      Amispan class=logo-dotBoaspan
+    a
+    ul class=nav-links id=navLinks
+      lia href=# onclick=showPage('home') data-page=home class=activeHomeali
+      lia href=# onclick=showPage('about') data-page=aboutAboutali
+      lia href=# onclick=showPage('services') data-page=servicesServicesali
+      lia href=# onclick=showPage('contact') data-page=contact class=nav-ctaContactali
+    ul
+    div class=hamburger id=hamburger onclick=toggleMenu()
+      spanspanspanspanspanspan
+    div
+  div
+nav
+
+!-- ══════════════════════════════
      HOME PAGE
-══════════════════════════════ -->
-    <div id="home" class="page active">
+══════════════════════════════ --
+div id=home class=page active
 
-        <!-- HERO -->
-        <section class="hero">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <div class="hero-tag">🏠 Smart Home Automation Mumbai</div>
-                    <h1>Your Home,<br><span class="grad-text">Intelligently</span><br>Controlled.</h1>
-                    <p>AmiBoa transforms ordinary homes into intelligent living spaces. Automate lighting, security, climate, and entertainment — all from one seamless ecosystem.</p>
-                    <div class="hero-btns">
-                        <a href="#" class="btn-primary" onclick="showPage('contact')">Get Free Consultation</a>
-                        <a href="#" class="btn-outline" onclick="showPage('services')">Explore Services</a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="house-card">
-                        <div class="house-card-header">
-                            <div class="house-card-title">🏠 My Smart Home</div>
-                            <div class="house-status"><span class="status-dot"></span> All Systems Online</div>
-                        </div>
-                        <div class="room-grid">
-                            <div class="room-tile on" onclick="toggleTile(this)">
-                                <div class="room-icon">💡</div>
-                                <div class="room-name">Living Room</div>
-                                <div class="room-val">Lights ON</div>
-                                <div class="toggle active"></div>
-                            </div>
-                            <div class="room-tile" onclick="toggleTile(this)">
-                                <div class="room-icon">❄️</div>
-                                <div class="room-name">Bedroom AC</div>
-                                <div class="room-val">24°C</div>
-                                <div class="toggle"></div>
-                            </div>
-                            <div class="room-tile on" onclick="toggleTile(this)">
-                                <div class="room-icon">🔒</div>
-                                <div class="room-name">Main Door</div>
-                                <div class="room-val">Secured</div>
-                                <div class="toggle active"></div>
-                            </div>
-                            <div class="room-tile" onclick="toggleTile(this)">
-                                <div class="room-icon">📷</div>
-                                <div class="room-name">Camera</div>
-                                <div class="room-val">Standby</div>
-                                <div class="toggle"></div>
-                            </div>
-                        </div>
-                        <div class="energy-bar">
-                            <div class="energy-label"><span>Energy Usage Today</span><span>38% Saved</span></div>
-                            <div class="bar-track">
-                                <div class="bar-fill"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  !-- HERO --
+  section class=hero
+    div class=hero-grid
+      div class=hero-content
+        div class=hero-tag🏠 Smart Home Automation Mumbaidiv
+        h1Your Home,brspan class=grad-textIntelligentlyspanbrControlled.h1
+        pAmiBoa transforms ordinary homes into intelligent living spaces. Automate lighting, security, climate, and entertainment — all from one seamless ecosystem.p
+        div class=hero-btns
+          a href=# class=btn-primary onclick=showPage('contact')Get Free Consultationa
+          a href=# class=btn-outline onclick=showPage('services')Explore Servicesa
+        div
+      div
+      div class=hero-visual
+        div class=house-card
+          div class=house-card-header
+            div class=house-card-title🏠 My Smart Homediv
+            div class=house-statusspan class=status-dotspan All Systems Onlinediv
+          div
+          div class=room-grid
+            div class=room-tile on onclick=toggleTile(this)
+              div class=room-icon💡div
+              div class=room-nameLiving Roomdiv
+              div class=room-valLights ONdiv
+              div class=toggle activediv
+            div
+            div class=room-tile onclick=toggleTile(this)
+              div class=room-icon❄️div
+              div class=room-nameBedroom ACdiv
+              div class=room-val24°Cdiv
+              div class=togglediv
+            div
+            div class=room-tile on onclick=toggleTile(this)
+              div class=room-icon🔒div
+              div class=room-nameMain Doordiv
+              div class=room-valSecureddiv
+              div class=toggle activediv
+            div
+            div class=room-tile onclick=toggleTile(this)
+              div class=room-icon📷div
+              div class=room-nameCameradiv
+              div class=room-valStandbydiv
+              div class=togglediv
+            div
+          div
+          div class=energy-bar
+            div class=energy-labelspanEnergy Usage Todayspanspan38% Savedspandiv
+            div class=bar-trackdiv class=bar-filldivdiv
+          div
+        div
+      div
+    div
+  section
 
-        <!-- STATS -->
-        <div class="stats-row">
-            <div class="stat-item">
-                <div class="stat-num">500<span style="color:var(--accent)">+</span></div>
-                <div class="stat-label">Homes Automated</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-num">99<span style="color:var(--accent)">%</span></div>
-                <div class="stat-label">Customer Satisfaction</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-num">8<span style="color:var(--accent)">+</span></div>
-                <div class="stat-label">Years of Excellence</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-num">40<span style="color:var(--accent)">%</span></div>
-                <div class="stat-label">Avg Energy Savings</div>
-            </div>
-        </div>
+  !-- STATS --
+  div class=stats-row
+    div class=stat-itemdiv class=stat-num500span style=colorvar(--accent)+spandivdiv class=stat-labelHomes Automateddivdiv
+    div class=stat-itemdiv class=stat-num99span style=colorvar(--accent)%spandivdiv class=stat-labelCustomer Satisfactiondivdiv
+    div class=stat-itemdiv class=stat-num8span style=colorvar(--accent)+spandivdiv class=stat-labelYears of Excellencedivdiv
+    div class=stat-itemdiv class=stat-num40span style=colorvar(--accent)%spandivdiv class=stat-labelAvg Energy Savingsdivdiv
+  div
 
-        <!-- FEATURES -->
-        <div class="section">
-            <div class="section-tag">✦ Why AmiBoa</div>
-            <h2 class="section-heading">Smart Living, <span class="grad-text">Simplified.</span></h2>
-            <p class="section-sub">We engineer end-to-end smart home ecosystems that blend seamlessly into your lifestyle.</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🔗</div>
-                    <h3>Unified Control</h3>
-                    <p>Control every device — lights, locks, appliances — through one intuitive app. No more juggling multiple remotes or apps.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Military-Grade Security</h3>
-                    <p>End-to-end encrypted communication, AI-powered threat detection, and real-time alerts keep your home impenetrable.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Energy Intelligence</h3>
-                    <p>Smart scheduling and AI-optimized routines cut your electricity bills by up to 40% without compromising comfort.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>AI-Powered Automation</h3>
-                    <p>Your home learns your patterns and proactively adjusts settings — temperature, lighting, and more, automatically.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎵</div>
-                    <h3>Immersive Entertainment</h3>
-                    <p>Whole-home audio, smart TVs, and cinema setups integrated and orchestrated for the perfect ambiance at all times.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📡</div>
-                    <h3>Remote Access</h3>
-                    <p>Monitor and control your home from anywhere in the world. Check cameras, lock doors, and manage devices on the go.</p>
-                </div>
-            </div>
-        </div>
+  !-- FEATURES --
+  div class=section
+    div class=section-tag✦ Why AmiBoadiv
+    h2 class=section-headingSmart Living, span class=grad-textSimplified.spanh2
+    p class=section-subWe engineer end-to-end smart home ecosystems that blend seamlessly into your lifestyle.p
+    div class=features-grid
+      div class=feature-card
+        div class=feature-icon🔗div
+        h3Unified Controlh3
+        pControl every device — lights, locks, appliances — through one intuitive app. No more juggling multiple remotes or apps.p
+      div
+      div class=feature-card
+        div class=feature-icon🛡️div
+        h3Military-Grade Securityh3
+        pEnd-to-end encrypted communication, AI-powered threat detection, and real-time alerts keep your home impenetrable.p
+      div
+      div class=feature-card
+        div class=feature-icon⚡div
+        h3Energy Intelligenceh3
+        pSmart scheduling and AI-optimized routines cut your electricity bills by up to 40% without compromising comfort.p
+      div
+      div class=feature-card
+        div class=feature-icon🤖div
+        h3AI-Powered Automationh3
+        pYour home learns your patterns and proactively adjusts settings — temperature, lighting, and more, automatically.p
+      div
+      div class=feature-card
+        div class=feature-icon🎵div
+        h3Immersive Entertainmenth3
+        pWhole-home audio, smart TVs, and cinema setups integrated and orchestrated for the perfect ambiance at all times.p
+      div
+      div class=feature-card
+        div class=feature-icon📡div
+        h3Remote Accessh3
+        pMonitor and control your home from anywhere in the world. Check cameras, lock doors, and manage devices on the go.p
+      div
+    div
+  div
 
-        <!-- CTA -->
-        <div class="cta-strip">
-            <div>
-                <h2>Ready to <span class="grad-text">transform</span> your home?</h2>
-                <p>Book a free consultation with our smart home experts today.</p>
-            </div>
-            <a href="#" class="btn-primary" onclick="showPage('contact')">Book Free Consultation →</a>
-        </div>
+  !-- CTA --
+  div class=cta-strip
+    div
+      h2Ready to span class=grad-texttransformspan your homeh2
+      pBook a free consultation with our smart home experts today.p
+    div
+    a href=# class=btn-primary onclick=showPage('contact')Book Free Consultation →a
+  div
 
-        <footer>
-            <div class="footer-inner">
-                <div class="footer-top">
-                    <div class="footer-brand">
-                        <a href="#" class="logo" onclick="showPage('home')" style="text-decoration:none">
-                            Ami<span class="logo-dot">Boa</span>
-                        </a>
-                        <p>Mumbai's leading smart home automation company. Transforming houses into intelligent homes since 2016.</p>
-                    </div>
-                    <div>
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#" onclick="showPage('home')">Home</a></li>
-                            <li><a href="#" onclick="showPage('about')">About Us</a></li>
-                            <li><a href="#" onclick="showPage('services')">Services</a></li>
-                            <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Services</h4>
-                        <ul>
-                            <li><a href="#">Lighting Control</a></li>
-                            <li><a href="#">Security Systems</a></li>
-                            <li><a href="#">Climate Control</a></li>
-                            <li><a href="#">Home Theater</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Contact</h4>
-                        <ul>
-                            <li><a href="tel:+918169858589">+91 8169858589</a></li>
-                            <li><a href="mailto:canyoujerry@gmail.com">canyoujerry@gmail.com</a></li>
-                            <li><a href="#">Sector 6, Charkop</a></li>
-                            <li><a href="#">Kandivali West, Mumbai</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>© 2025 AmiBoa Smart Home Solutions. All rights reserved.</p>
-                    <p style="color:var(--muted)">Sector 6, Charkop, Kandivali West, Mumbai – 400067</p>
-                </div>
-            </div>
-        </footer>
-    </div>
+  footer
+    div class=footer-inner
+      div class=footer-top
+        div class=footer-brand
+          a href=# class=logo onclick=showPage('home') style=text-decorationnone
+            div class=logo-iconsvg viewBox=0 0 24 24path d=M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8zsvgdiv
+            Amispan class=logo-dotBoaspan
+          a
+          pMumbai's leading smart home automation company. Transforming houses into intelligent homes since 2016.p
+        div
+        div
+          h4Companyh4
+          ul
+            lia href=# onclick=showPage('home')Homeali
+            lia href=# onclick=showPage('about')About Usali
+            lia href=# onclick=showPage('services')Servicesali
+            lia href=# onclick=showPage('contact')Contactali
+          ul
+        div
+        div
+          h4Servicesh4
+          ul
+            lia href=#Lighting Controlali
+            lia href=#Security Systemsali
+            lia href=#Climate Controlali
+            lia href=#Home Theaterali
+          ul
+        div
+        div
+          h4Contacth4
+          ul
+            lia href=tel+918169858589+91 8169858589ali
+            lia href=mailtocanyoujerry@gmail.comcanyoujerry@gmail.comali
+            lia href=#Sector 6, Charkopali
+            lia href=#Kandivali West, Mumbaiali
+          ul
+        div
+      div
+      div class=footer-bottom
+        p© 2025 AmiBoa Smart Home Solutions. All rights reserved.p
+        p style=colorvar(--muted)Sector 6, Charkop, Kandivali West, Mumbai – 400067p
+      div
+    div
+  footer
+div
 
-    <!-- ══════════════════════════════
+!-- ══════════════════════════════
      ABOUT PAGE
-══════════════════════════════ -->
-    <div id="about" class="page">
-        <div class="about-hero">
-            <div>
-                <div class="section-tag">✦ Our Story</div>
-                <h2 class="section-heading">Mumbai's Most <span class="grad-text">Trusted</span> Smart Home Brand</h2>
-                <p style="color:var(--muted);line-height:1.75;margin-bottom:24px;">Founded in the heart of Mumbai, AmiBoa was born from a simple belief — your home should work for you, not the other way around. Since 2016, we've been turning that vision into reality for hundreds of families across the city.</p>
-                <p style="color:var(--muted);line-height:1.75;">Our team of certified engineers and designers collaborate to deliver custom smart home solutions that are elegant, reliable, and future-proof. We don't just install gadgets — we architect intelligent environments.</p>
-            </div>
-            <div class="about-visual">
-                <div class="about-tile">
-                    <div class="big">500+</div>
-                    <div class="lbl">Homes Successfully Automated</div>
-                </div>
-                <div class="about-tile">
-                    <div class="big">8+</div>
-                    <div class="lbl">Years in Business</div>
-                </div>
-                <div class="about-tile">
-                    <div class="big">50+</div>
-                    <div class="lbl">Certified Engineers</div>
-                </div>
-            </div>
-        </div>
+══════════════════════════════ --
+div id=about class=page
+  div class=about-hero
+    div
+      div class=section-tag✦ Our Storydiv
+      h2 class=section-headingMumbai's Most span class=grad-textTrustedspan Smart Home Brandh2
+      p style=colorvar(--muted);line-height1.75;margin-bottom24px;Founded in the heart of Mumbai, AmiBoa was born from a simple belief — your home should work for you, not the other way around. Since 2016, we've been turning that vision into reality for hundreds of families across the city.p
+      p style=colorvar(--muted);line-height1.75;Our team of certified engineers and designers collaborate to deliver custom smart home solutions that are elegant, reliable, and future-proof. We don't just install gadgets — we architect intelligent environments.p
+    div
+    div class=about-visual
+      div class=about-tile
+        div class=big500+div
+        div class=lblHomes Successfully Automateddiv
+      div
+      div class=about-tile
+        div class=big8+div
+        div class=lblYears in Businessdiv
+      div
+      div class=about-tile
+        div class=big50+div
+        div class=lblCertified Engineersdiv
+      div
+    div
+  div
 
-        <div class="section" style="padding-top:0">
-            <div class="section-tag">✦ Our Values</div>
-            <h2 class="section-heading">What Drives <span class="grad-text">Everything</span> We Do</h2>
-            <div class="values-grid">
-                <div class="value-card">
-                    <div class="value-icon">🎯</div>
-                    <div>
-                        <h4>Customer-First Always</h4>
-                        <p>Every project begins with deeply understanding your lifestyle, needs, and vision before we design a single solution.</p>
-                    </div>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">🔬</div>
-                    <div>
-                        <h4>Innovation at Core</h4>
-                        <p>We continuously evaluate the latest technologies to ensure our clients benefit from the best the world has to offer.</p>
-                    </div>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">🤝</div>
-                    <div>
-                        <h4>Lifetime Partnership</h4>
-                        <p>Our relationship doesn't end at installation. We provide ongoing support, maintenance, and upgrades as you grow.</p>
-                    </div>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">🌱</div>
-                    <div>
-                        <h4>Sustainability Minded</h4>
-                        <p>Energy-efficient solutions that reduce your carbon footprint while delivering maximum comfort and convenience.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  div class=section style=padding-top0
+    div class=section-tag✦ Our Valuesdiv
+    h2 class=section-headingWhat Drives span class=grad-textEverythingspan We Doh2
+    div class=values-grid
+      div class=value-card
+        div class=value-icon🎯div
+        divh4Customer-First Alwaysh4pEvery project begins with deeply understanding your lifestyle, needs, and vision before we design a single solution.pdiv
+      div
+      div class=value-card
+        div class=value-icon🔬div
+        divh4Innovation at Coreh4pWe continuously evaluate the latest technologies to ensure our clients benefit from the best the world has to offer.pdiv
+      div
+      div class=value-card
+        div class=value-icon🤝div
+        divh4Lifetime Partnershiph4pOur relationship doesn't end at installation. We provide ongoing support, maintenance, and upgrades as you grow.pdiv
+      div
+      div class=value-card
+        div class=value-icon🌱div
+        divh4Sustainability Mindedh4pEnergy-efficient solutions that reduce your carbon footprint while delivering maximum comfort and convenience.pdiv
+      div
+    div
+  div
 
-        <div class="cta-strip" style="margin:0 5% 96px;">
-            <div>
-                <h2>Join the Smart Home <span class="grad-text">Revolution</span></h2>
-                <p>Let's build something extraordinary together.</p>
-            </div>
-            <a href="#" class="btn-primary" onclick="showPage('contact')">Get In Touch →</a>
-        </div>
+  div class=cta-strip style=margin0 5% 96px;
+    divh2Join the Smart Home span class=grad-textRevolutionspanh2pLet's build something extraordinary together.pdiv
+    a href=# class=btn-primary onclick=showPage('contact')Get In Touch →a
+  div
 
-        <footer>
-            <div class="footer-inner">
-                <div class="footer-top">
-                    <div class="footer-brand">
-                        <a href="#" class="logo" onclick="showPage('home')" style="text-decoration:none">
+  footer
+    div class=footer-inner
+      div class=footer-top
+        div class=footer-brand
+          a href=# class=logo onclick=showPage('home') style=text-decorationnone
+            div class=logo-iconsvg viewBox=0 0 24 24path d=M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8zsvgdiv
+            Amispan class=logo-dotBoaspan
+          a
+          pMumbai's leading smart home automation company. Transforming houses into intelligent homes since 2016.p
+        div
+        divh4Companyh4ullia href=# onclick=showPage('home')Homealilia href=# onclick=showPage('about')About Usalilia href=# onclick=showPage('services')Servicesalilia href=# onclick=showPage('contact')Contactaliuldiv
+        divh4Servicesh4ullia href=#Lighting Controlalilia href=#Security Systemsalilia href=#Climate Controlalilia href=#Home Theateraliuldiv
+        divh4Contacth4ullia href=tel+918169858589+91 8169858589alilia href=mailtocanyoujerry@gmail.comcanyoujerry@gmail.comalilia href=#Sector 6, Charkop, Kandivali Westaliuldiv
+      div
+      div class=footer-bottomp© 2025 AmiBoa Smart Home Solutions. All rights reserved.pp style=colorvar(--muted)Mumbai – 400067pdiv
+    div
+  footer
+div
 
-                            Ami<span class="logo-dot">Boa</span>
-                        </a>
-                        <p>Mumbai's leading smart home automation company. Transforming houses into intelligent homes since 2016.</p>
-                    </div>
-                    <div>
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#" onclick="showPage('home')">Home</a></li>
-                            <li><a href="#" onclick="showPage('about')">About Us</a></li>
-                            <li><a href="#" onclick="showPage('services')">Services</a></li>
-                            <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Services</h4>
-                        <ul>
-                            <li><a href="#">Lighting Control</a></li>
-                            <li><a href="#">Security Systems</a></li>
-                            <li><a href="#">Climate Control</a></li>
-                            <li><a href="#">Home Theater</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Contact</h4>
-                        <ul>
-                            <li><a href="tel:+918169858589">+91 8169858589</a></li>
-                            <li><a href="mailto:canyoujerry@gmail.com">canyoujerry@gmail.com</a></li>
-                            <li><a href="#">Sector 6, Charkop, Kandivali West</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>© 2025 AmiBoa Smart Home Solutions. All rights reserved.</p>
-                    <p style="color:var(--muted)">Mumbai – 400067</p>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- ══════════════════════════════
+!-- ══════════════════════════════
      SERVICES PAGE
-══════════════════════════════ -->
-    <div id="services" class="page">
-        <div class="services-intro">
-            <div class="section-tag">✦ What We Offer</div>
-            <h2 class="section-heading">Complete Smart Home <span class="grad-text">Ecosystem</span></h2>
-            <p class="section-sub">From a single room to entire buildings — we design, install, and maintain smart solutions tailored for you.</p>
-        </div>
+══════════════════════════════ --
+div id=services class=page
+  div class=services-intro
+    div class=section-tag✦ What We Offerdiv
+    h2 class=section-headingComplete Smart Home span class=grad-textEcosystemspanh2
+    p class=section-subFrom a single room to entire buildings — we design, install, and maintain smart solutions tailored for you.p
+  div
 
-        <div class="services-big-grid">
-            <div class="service-card-big">
-                <div>
-                    <div class="service-num">01</div>
-                    <h3>Intelligent Lighting Control</h3>
-                    <p>Automate every light in your home with scene-based controls, motion detection, circadian rhythm syncing, and voice commands. Wake up to gentle sunrise lighting and wind down with perfectly dimmed ambiance.</p>
-                    <div class="service-tags">
-                        <span class="service-tag">Voice Control</span>
-                        <span class="service-tag">Motion Sensors</span>
-                        <span class="service-tag">Scene Modes</span>
-                        <span class="service-tag">Energy Saving</span>
-                    </div>
-                </div>
-                <div class="service-visual">
-                    <div style="text-align:center;padding:20px">
-                        <div style="font-size:3.5rem;margin-bottom:16px">💡</div>
-                        <div style="font-family:var(--font-display);font-size:1rem;color:var(--white);margin-bottom:12px">Living Room Scene</div>
-                        <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
-                            <span style="background:rgba(255,220,50,0.15);border:1px solid rgba(255,220,50,0.3);padding:6px 12px;border-radius:50px;font-size:0.78rem;color:#ffd832">🌅 Morning</span>
-                            <span style="background:rgba(0,212,170,0.15);border:1px solid rgba(0,212,170,0.3);padding:6px 12px;border-radius:50px;font-size:0.78rem;color:var(--accent)">📽️ Movie</span>
-                            <span style="background:rgba(150,100,255,0.15);border:1px solid rgba(150,100,255,0.3);padding:6px 12px;border-radius:50px;font-size:0.78rem;color:#a56fff">🌙 Night</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  div class=services-big-grid
+    div class=service-card-big
+      div
+        div class=service-num01div
+        h3Intelligent Lighting Controlh3
+        pAutomate every light in your home with scene-based controls, motion detection, circadian rhythm syncing, and voice commands. Wake up to gentle sunrise lighting and wind down with perfectly dimmed ambiance.p
+        div class=service-tags
+          span class=service-tagVoice Controlspan
+          span class=service-tagMotion Sensorsspan
+          span class=service-tagScene Modesspan
+          span class=service-tagEnergy Savingspan
+        div
+      div
+      div class=service-visual
+        div style=text-aligncenter;padding20px
+          div style=font-size3.5rem;margin-bottom16px💡div
+          div style=font-familyvar(--font-display);font-size1rem;colorvar(--white);margin-bottom12pxLiving Room Scenediv
+          div style=displayflex;justify-contentcenter;gap8px;flex-wrapwrap
+            span style=backgroundrgba(255,220,50,0.15);border1px solid rgba(255,220,50,0.3);padding6px 12px;border-radius50px;font-size0.78rem;color#ffd832🌅 Morningspan
+            span style=backgroundrgba(0,212,170,0.15);border1px solid rgba(0,212,170,0.3);padding6px 12px;border-radius50px;font-size0.78rem;colorvar(--accent)📽️ Moviespan
+            span style=backgroundrgba(150,100,255,0.15);border1px solid rgba(150,100,255,0.3);padding6px 12px;border-radius50px;font-size0.78rem;color#a56fff🌙 Nightspan
+          div
+        div
+      div
+    div
 
-            <div class="service-card-big">
-                <div class="service-num">02</div>
-                <h3>Advanced Security Systems</h3>
-                <p>AI-powered cameras, smart locks, video doorbells, and motion alerts — all integrated and monitored 24/7. Get real-time notifications and remotely control access from anywhere.</p>
-                <div class="service-tags"><span class="service-tag">AI Cameras</span><span class="service-tag">Smart Locks</span><span class="service-tag">24/7 Monitoring</span></div>
-            </div>
+    div class=service-card-big
+      div class=service-num02div
+      h3Advanced Security Systemsh3
+      pAI-powered cameras, smart locks, video doorbells, and motion alerts — all integrated and monitored 247. Get real-time notifications and remotely control access from anywhere.p
+      div class=service-tagsspan class=service-tagAI Camerasspanspan class=service-tagSmart Locksspanspan class=service-tag247 Monitoringspandiv
+    div
 
-            <div class="service-card-big">
-                <div class="service-num">03</div>
-                <h3>Climate Control & HVAC</h3>
-                <p>Smart thermostats and zoned climate control that learn your preferences, automatically optimising temperature for comfort while slashing energy bills by up to 40%.</p>
-                <div class="service-tags"><span class="service-tag">Smart Thermostat</span><span class="service-tag">Zone Control</span><span class="service-tag">AI Scheduling</span></div>
-            </div>
+    div class=service-card-big
+      div class=service-num03div
+      h3Climate Control & HVACh3
+      pSmart thermostats and zoned climate control that learn your preferences, automatically optimising temperature for comfort while slashing energy bills by up to 40%.p
+      div class=service-tagsspan class=service-tagSmart Thermostatspanspan class=service-tagZone Controlspanspan class=service-tagAI Schedulingspandiv
+    div
 
-            <div class="service-card-big">
-                <div class="service-num">04</div>
-                <h3>Home Theater & Audio</h3>
-                <p>Cinematic experiences in your living room. Whole-home audio streaming, acoustically optimised speaker placement, and one-touch scene activation for the ultimate entertainment setup.</p>
-                <div class="service-tags"><span class="service-tag">4K Projectors</span><span class="service-tag">Whole-Home Audio</span><span class="service-tag">Surround Sound</span></div>
-            </div>
+    div class=service-card-big
+      div class=service-num04div
+      h3Home Theater & Audioh3
+      pCinematic experiences in your living room. Whole-home audio streaming, acoustically optimised speaker placement, and one-touch scene activation for the ultimate entertainment setup.p
+      div class=service-tagsspan class=service-tag4K Projectorsspanspan class=service-tagWhole-Home Audiospanspan class=service-tagSurround Soundspandiv
+    div
 
-            <div class="service-card-big">
-                <div class="service-num">05</div>
-                <h3>Smart Appliance Integration</h3>
-                <p>Connect your refrigerator, washing machine, dishwasher, and more into one unified smart system. Monitor usage, set schedules, and get maintenance alerts automatically.</p>
-                <div class="service-tags"><span class="service-tag">IoT Appliances</span><span class="service-tag">Usage Analytics</span><span class="service-tag">Auto Scheduling</span></div>
-            </div>
+    div class=service-card-big
+      div class=service-num05div
+      h3Smart Appliance Integrationh3
+      pConnect your refrigerator, washing machine, dishwasher, and more into one unified smart system. Monitor usage, set schedules, and get maintenance alerts automatically.p
+      div class=service-tagsspan class=service-tagIoT Appliancesspanspan class=service-tagUsage Analyticsspanspan class=service-tagAuto Schedulingspandiv
+    div
 
-            <div class="service-card-big">
-                <div class="service-num">06</div>
-                <h3>Energy Management</h3>
-                <p>Real-time energy dashboards, solar integration, smart meters, and AI-powered load balancing. Understand your consumption and make your home truly sustainable.</p>
-                <div class="service-tags"><span class="service-tag">Solar Ready</span><span class="service-tag">Live Dashboard</span><span class="service-tag">Load Balancing</span></div>
-            </div>
-        </div>
+    div class=service-card-big
+      div class=service-num06div
+      h3Energy Managementh3
+      pReal-time energy dashboards, solar integration, smart meters, and AI-powered load balancing. Understand your consumption and make your home truly sustainable.p
+      div class=service-tagsspan class=service-tagSolar Readyspanspan class=service-tagLive Dashboardspanspan class=service-tagLoad Balancingspandiv
+    div
+  div
 
-        <!-- Process -->
-        <div class="process-section">
-            <div class="section-tag">✦ How It Works</div>
-            <h2 class="section-heading">From Idea to <span class="grad-text">Intelligent</span> Home</h2>
-            <p class="section-sub">Our streamlined 4-step process ensures a flawless smart home installation experience.</p>
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-circle">1</div>
-                    <h4>Consultation</h4>
-                    <p>Free in-home visit by our experts to understand your needs, lifestyle, and budget.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-circle">2</div>
-                    <h4>Custom Design</h4>
-                    <p>We design a bespoke smart home blueprint tailored specifically to your space.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-circle">3</div>
-                    <h4>Installation</h4>
-                    <p>Clean, professional installation by our certified engineers with zero disruption.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-circle">4</div>
-                    <h4>Handover & Support</h4>
-                    <p>Full training, 24/7 support, and regular maintenance visits for peace of mind.</p>
-                </div>
-            </div>
-        </div>
+  !-- Process --
+  div class=process-section
+    div class=section-tag✦ How It Worksdiv
+    h2 class=section-headingFrom Idea to span class=grad-textIntelligentspan Homeh2
+    p class=section-subOur streamlined 4-step process ensures a flawless smart home installation experience.p
+    div class=process-steps
+      div class=process-stepdiv class=step-circle1divh4Consultationh4pFree in-home visit by our experts to understand your needs, lifestyle, and budget.pdiv
+      div class=process-stepdiv class=step-circle2divh4Custom Designh4pWe design a bespoke smart home blueprint tailored specifically to your space.pdiv
+      div class=process-stepdiv class=step-circle3divh4Installationh4pClean, professional installation by our certified engineers with zero disruption.pdiv
+      div class=process-stepdiv class=step-circle4divh4Handover & Supporth4pFull training, 247 support, and regular maintenance visits for peace of mind.pdiv
+    div
+  div
 
-        <div class="cta-strip" style="margin:0 5% 96px;">
-            <div>
-                <h2>Start Your Smart Home <span class="grad-text">Journey</span></h2>
-                <p>Free consultation, no obligations. Talk to an expert today.</p>
-            </div>
-            <a href="#" class="btn-primary" onclick="showPage('contact')">Book Free Consultation →</a>
-        </div>
+  div class=cta-strip style=margin0 5% 96px;
+    divh2Start Your Smart Home span class=grad-textJourneyspanh2pFree consultation, no obligations. Talk to an expert today.pdiv
+    a href=# class=btn-primary onclick=showPage('contact')Book Free Consultation →a
+  div
 
-        <footer>
-            <div class="footer-inner">
-                <div class="footer-top">
-                    <div class="footer-brand">
-                        <a href="#" class="logo" onclick="showPage('home')" style="text-decoration:none">
-                            
-                            Ami<span class="logo-dot">Boa</span>
-                        </a>
-                        <p>Mumbai's leading smart home automation company.</p>
-                    </div>
-                    <div>
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#" onclick="showPage('home')">Home</a></li>
-                            <li><a href="#" onclick="showPage('about')">About Us</a></li>
-                            <li><a href="#" onclick="showPage('services')">Services</a></li>
-                            <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Services</h4>
-                        <ul>
-                            <li><a href="#">Lighting Control</a></li>
-                            <li><a href="#">Security Systems</a></li>
-                            <li><a href="#">Climate Control</a></li>
-                            <li><a href="#">Home Theater</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Contact</h4>
-                        <ul>
-                            <li><a href="tel:+918169858589">+91 8169858589</a></li>
-                            <li><a href="mailto:canyoujerry@gmail.com">canyoujerry@gmail.com</a></li>
-                            <li><a href="#">Kandivali West, Mumbai – 400067</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>© 2025 AmiBoa Smart Home Solutions. All rights reserved.</p>
-                    <p style="color:var(--muted)">Mumbai – 400067</p>
-                </div>
-            </div>
-        </footer>
-    </div>
+  footer
+    div class=footer-inner
+      div class=footer-top
+        div class=footer-brand
+          a href=# class=logo onclick=showPage('home') style=text-decorationnone
+            div class=logo-iconsvg viewBox=0 0 24 24path d=M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8zsvgdiv
+            Amispan class=logo-dotBoaspan
+          a
+          pMumbai's leading smart home automation company.p
+        div
+        divh4Companyh4ullia href=# onclick=showPage('home')Homealilia href=# onclick=showPage('about')About Usalilia href=# onclick=showPage('services')Servicesalilia href=# onclick=showPage('contact')Contactaliuldiv
+        divh4Servicesh4ullia href=#Lighting Controlalilia href=#Security Systemsalilia href=#Climate Controlalilia href=#Home Theateraliuldiv
+        divh4Contacth4ullia href=tel+918169858589+91 8169858589alilia href=mailtocanyoujerry@gmail.comcanyoujerry@gmail.comalilia href=#Kandivali West, Mumbai – 400067aliuldiv
+      div
+      div class=footer-bottomp© 2025 AmiBoa Smart Home Solutions. All rights reserved.pp style=colorvar(--muted)Mumbai – 400067pdiv
+    div
+  footer
+div
 
-    <!-- ══════════════════════════════
+!-- ══════════════════════════════
      CONTACT PAGE
-══════════════════════════════ -->
-    <div id="contact" class="page">
-        <div class="contact-wrap">
-            <div class="contact-info">
-                <div class="section-tag" style="margin-top:24px">✦ Get In Touch</div>
-                <h2>Let's Build Your<br><span class="grad-text">Smart Home</span></h2>
-                <p>Whether you have a question, want a quote, or are ready to start your project — we'd love to hear from you. Our team typically responds within 2 hours.</p>
+══════════════════════════════ --
+div id=contact class=page
+  div class=contact-wrap
+    div class=contact-info
+      div class=section-tag style=margin-top24px✦ Get In Touchdiv
+      h2Let's Build Yourbrspan class=grad-textSmart Homespanh2
+      pWhether you have a question, want a quote, or are ready to start your project — we'd love to hear from you. Our team typically responds within 2 hours.p
 
-                <div class="contact-detail">
-                    <div class="contact-detail-icon">📍</div>
-                    <div class="contact-detail-text">
-                        <div class="label">Address</div>
-                        <div class="val">Sector 6, Charkop, Kandivali West<br>Mumbai – 400067, Maharashtra</div>
-                    </div>
-                </div>
-                <div class="contact-detail">
-                    <div class="contact-detail-icon">📧</div>
-                    <div class="contact-detail-text">
-                        <div class="label">Email</div>
-                        <div class="val"><a href="mailto:canyoujerry@gmail.com" style="color:var(--accent);text-decoration:none">canyoujerry@gmail.com</a></div>
-                    </div>
-                </div>
-                <div class="contact-detail">
-                    <div class="contact-detail-icon">📞</div>
-                    <div class="contact-detail-text">
-                        <div class="label">Phone / WhatsApp</div>
-                        <div class="val"><a href="tel:+918169858589" style="color:var(--white);text-decoration:none">+91 8169858589</a></div>
-                    </div>
-                </div>
-                <div class="contact-detail">
-                    <div class="contact-detail-icon">🕐</div>
-                    <div class="contact-detail-text">
-                        <div class="label">Working Hours</div>
-                        <div class="val">Mon – Sat: 9:00 AM – 7:00 PM</div>
-                    </div>
-                </div>
+      div class=contact-detail
+        div class=contact-detail-icon📍div
+        div class=contact-detail-text
+          div class=labelAddressdiv
+          div class=valSector 6, Charkop, Kandivali WestbrMumbai – 400067, Maharashtradiv
+        div
+      div
+      div class=contact-detail
+        div class=contact-detail-icon📧div
+        div class=contact-detail-text
+          div class=labelEmaildiv
+          div class=vala href=mailtocanyoujerry@gmail.com style=colorvar(--accent);text-decorationnonecanyoujerry@gmail.comadiv
+        div
+      div
+      div class=contact-detail
+        div class=contact-detail-icon📞div
+        div class=contact-detail-text
+          div class=labelPhone  WhatsAppdiv
+          div class=vala href=tel+918169858589 style=colorvar(--white);text-decorationnone+91 8169858589adiv
+        div
+      div
+      div class=contact-detail
+        div class=contact-detail-icon🕐div
+        div class=contact-detail-text
+          div class=labelWorking Hoursdiv
+          div class=valMon – Sat 900 AM – 700 PMdiv
+        div
+      div
 
-                <a href="https://wa.me/918169858589?text=Hi%20AmiBoa!%20I'm%20interested%20in%20your%20smart%20home%20solutions." target="_blank" class="wa-btn">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                    </svg>
-                    Chat on WhatsApp
-                </a>
-            </div>
+      a href=httpswa.me918169858589text=Hi%20AmiBoa!%20I'm%20interested%20in%20your%20smart%20home%20solutions. target=_blank class=wa-btn
+        svg viewBox=0 0 24 24 xmlns=httpwww.w3.org2000svgpath d=M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413zsvg
+        Chat on WhatsApp
+      a
+    div
 
-            <!-- CONTACT FORM -->
-            <div class="contact-form-wrap">
-                <h3>Send Us a Message</h3>
-                <div class="form-row">
-                    <div class="form-group"><label>First Name *</label><input type="text" id="fname" placeholder="Rahul" required /></div>
-                    <div class="form-group"><label>Last Name *</label><input type="text" id="lname" placeholder="Sharma" required /></div>
-                </div>
-                <div class="form-group"><label>Email Address *</label><input type="email" id="femail" placeholder="rahul@example.com" required /></div>
-                <div class="form-group"><label>Phone Number</label><input type="tel" id="fphone" placeholder="+91 98765 43210" /></div>
-                <div class="form-group">
-                    <label>Service Interested In</label>
-                    <select id="fservice">
-                        <option value="">Select a service...</option>
-                        <option>Lighting Control</option>
-                        <option>Security Systems</option>
-                        <option>Climate Control</option>
-                        <option>Home Theater & Audio</option>
-                        <option>Smart Appliance Integration</option>
-                        <option>Energy Management</option>
-                        <option>Full Home Automation Package</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Message *</label><textarea id="fmessage" placeholder="Tell us about your home and what you'd like to automate..."></textarea></div>
-                <button class="submit-btn" id="submitBtn" onclick="submitForm()">Send Message →</button>
-                <p class="form-note">⚡ We respond within 2 hours during business hours</p>
-                <div class="success-msg" id="successMsg">✅ Message sent! We'll get back to you within 2 hours. Thank you for contacting AmiBoa!</div>
-                <div class="error-msg" id="errorMsg">❌ Something went wrong. Please try again or contact us directly via WhatsApp.</div>
-            </div>
-        </div>
+    !-- CONTACT FORM --
+    div class=contact-form-wrap
+      h3Send Us a Messageh3
+      div class=form-row
+        div class=form-grouplabelFirst Name labelinput type=text id=fname placeholder=Rahul requireddiv
+        div class=form-grouplabelLast Name labelinput type=text id=lname placeholder=Sharma requireddiv
+      div
+      div class=form-grouplabelEmail Address labelinput type=email id=femail placeholder=rahul@example.com requireddiv
+      div class=form-grouplabelPhone Numberlabelinput type=tel id=fphone placeholder=+91 98765 43210div
+      div class=form-group
+        labelService Interested Inlabel
+        select id=fservice
+          option value=Select a service...option
+          optionLighting Controloption
+          optionSecurity Systemsoption
+          optionClimate Controloption
+          optionHome Theater & Audiooption
+          optionSmart Appliance Integrationoption
+          optionEnergy Managementoption
+          optionFull Home Automation Packageoption
+          optionOtheroption
+        select
+      div
+      div class=form-grouplabelMessage labeltextarea id=fmessage placeholder=Tell us about your home and what you'd like to automate...textareadiv
+      button class=submit-btn id=submitBtn onclick=submitForm()Send Message →button
+      p class=form-note⚡ We respond within 2 hours during business hoursp
+      div class=success-msg id=successMsg✅ Message sent! We'll get back to you within 2 hours. Thank you for contacting AmiBoa!div
+      div class=error-msg id=errorMsg❌ Something went wrong. Please try again or contact us directly via WhatsApp.div
+    div
+  div
 
-        <!-- MAP -->
-        <div class="map-wrap">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.0!2d72.8360!3d19.2070!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b63aceef0c23%3A0x9f5e56b2f2bc9a07!2sCharkop%2C%20Kandivali%20West%2C%20Mumbai%2C%20Maharashtra%20400067!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy">
-            </iframe>
-            <div class="map-overlay">
-                <strong>AmiBoa Smart Home Solutions</strong>
-                <p>Sector 6, Charkop, Kandivali West, Mumbai – 400067</p>
-            </div>
-        </div>
+  !-- MAP --
+  div class=map-wrap
+    iframe
+      src=httpswww.google.commapsembedpb=!1m18!1m12!1m3!1d3768.0!2d72.8360!3d19.2070!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b63aceef0c23%3A0x9f5e56b2f2bc9a07!2sCharkop%2C%20Kandivali%20West%2C%20Mumbai%2C%20Maharashtra%20400067!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin
+      allowfullscreen= loading=lazy
+    iframe
+    div class=map-overlay
+      strongAmiBoa Smart Home Solutionsstrong
+      pSector 6, Charkop, Kandivali West, Mumbai – 400067p
+    div
+  div
 
-        <footer>
-            <div class="footer-inner">
-                <div class="footer-top">
-                    <div class="footer-brand">
-                        <a href="#" class="logo" onclick="showPage('home')" style="text-decoration:none">
-                            Ami<span class="logo-dot">Boa</span>
-                        </a>
-                        <p>Mumbai's leading smart home automation company.</p>
-                    </div>
-                    <div>
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#" onclick="showPage('home')">Home</a></li>
-                            <li><a href="#" onclick="showPage('about')">About Us</a></li>
-                            <li><a href="#" onclick="showPage('services')">Services</a></li>
-                            <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Services</h4>
-                        <ul>
-                            <li><a href="#">Lighting Control</a></li>
-                            <li><a href="#">Security Systems</a></li>
-                            <li><a href="#">Climate Control</a></li>
-                            <li><a href="#">Home Theater</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Contact</h4>
-                        <ul>
-                            <li><a href="tel:+918169858589">+91 8169858589</a></li>
-                            <li><a href="mailto:canyoujerry@gmail.com">canyoujerry@gmail.com</a></li>
-                            <li><a href="#">Kandivali West, Mumbai – 400067</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>© 2025 AmiBoa Smart Home Solutions. All rights reserved.</p>
-                    <p style="color:var(--muted)">Mumbai – 400067</p>
-                </div>
-            </div>
-        </footer>
-    </div>
+  footer
+    div class=footer-inner
+      div class=footer-top
+        div class=footer-brand
+          a href=# class=logo onclick=showPage('home') style=text-decorationnone
+            div class=logo-iconsvg viewBox=0 0 24 24path d=M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8zsvgdiv
+            Amispan class=logo-dotBoaspan
+          a
+          pMumbai's leading smart home automation company.p
+        div
+        divh4Companyh4ullia href=# onclick=showPage('home')Homealilia href=# onclick=showPage('about')About Usalilia href=# onclick=showPage('services')Servicesalilia href=# onclick=showPage('contact')Contactaliuldiv
+        divh4Servicesh4ullia href=#Lighting Controlalilia href=#Security Systemsalilia href=#Climate Controlalilia href=#Home Theateraliuldiv
+        divh4Contacth4ullia href=tel+918169858589+91 8169858589alilia href=mailtocanyoujerry@gmail.comcanyoujerry@gmail.comalilia href=#Kandivali West, Mumbai – 400067aliuldiv
+      div
+      div class=footer-bottomp© 2025 AmiBoa Smart Home Solutions. All rights reserved.pp style=colorvar(--muted)Mumbai – 400067pdiv
+    div
+  footer
+div
 
-    <!-- Floating WhatsApp -->
-    <a href="https://wa.me/918169858589?text=Hi%20AmiBoa!%20I'm%20interested%20in%20your%20smart%20home%20solutions." target="_blank" class="wa-float" title="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-        </svg>
-    </a>
+!-- Floating WhatsApp --
+a href=httpswa.me918169858589text=Hi%20AmiBoa!%20I'm%20interested%20in%20your%20smart%20home%20solutions. target=_blank class=wa-float title=Chat on WhatsApp
+  svg viewBox=0 0 24 24 xmlns=httpwww.w3.org2000svgpath d=M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413zsvg
+a
 
-    <script>
-        /* ── PAGE ROUTING ── */
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-links a').forEach(a => {
-                a.classList.toggle('active', a.dataset.page === id);
-            });
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            // close mobile menu
-            document.getElementById('navLinks').classList.remove('open');
-            return false;
-        }
+script
+   ── PAGE ROUTING ── 
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p = p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a = {
+      a.classList.toggle('active', a.dataset.page === id);
+    });
+    window.scrollTo({ top 0, behavior 'smooth' });
+     close mobile menu
+    document.getElementById('navLinks').classList.remove('open');
+    return false;
+  }
 
-        /* ── HAMBURGER ── */
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('open');
-        }
+   ── HAMBURGER ── 
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
 
-        /* ── DEMO TOGGLES ── */
-        function toggleTile(tile) {
-            tile.classList.toggle('on');
-            const tog = tile.querySelector('.toggle');
-            tog.classList.toggle('active');
-        }
+   ── DEMO TOGGLES ── 
+  function toggleTile(tile) {
+    tile.classList.toggle('on');
+    const tog = tile.querySelector('.toggle');
+    tog.classList.toggle('active');
+  }
 
-        /* ── CONTACT FORM → EMAIL via mailto fallback + Web3Forms ── */
-        async function submitForm() {
-            const fname = document.getElementById('fname').value.trim();
-            const lname = document.getElementById('lname').value.trim();
-            const femail = document.getElementById('femail').value.trim();
-            const fphone = document.getElementById('fphone').value.trim();
-            const fservice = document.getElementById('fservice').value;
-            const fmessage = document.getElementById('fmessage').value.trim();
+   ── CONTACT FORM → EMAIL via mailto fallback + Web3Forms ── 
+  async function submitForm() {
+    const fname    = document.getElementById('fname').value.trim();
+    const lname    = document.getElementById('lname').value.trim();
+    const femail   = document.getElementById('femail').value.trim();
+    const fphone   = document.getElementById('fphone').value.trim();
+    const fservice = document.getElementById('fservice').value;
+    const fmessage = document.getElementById('fmessage').value.trim();
 
-            if (!fname || !femail || !fmessage) {
-                alert('Please fill in all required fields (Name, Email, Message).');
-                return;
-            }
+    if (!fname  !femail  !fmessage) {
+      alert('Please fill in all required fields (Name, Email, Message).');
+      return;
+    }
 
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Sending…';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
 
-            /* Primary: Web3Forms (free, no backend needed) */
-            try {
-                const formData = new FormData();
-                formData.append('access_key', 'YOUR_WEB3FORMS_KEY'); // Replace with actual key from web3forms.com
-                formData.append('subject', `New Smart Home Enquiry from ${fname} ${lname} – AmiBoa`);
-                formData.append('from_name', 'AmiBoa Website');
-                formData.append('to', 'canyoujerry@gmail.com');
-                formData.append('name', `${fname} ${lname}`);
-                formData.append('email', femail);
-                formData.append('phone', fphone || 'Not provided');
-                formData.append('service', fservice || 'Not specified');
-                formData.append('message', fmessage);
-                formData.append('redirect', 'false');
+     Primary Web3Forms (free, no backend needed) 
+    try {
+      const formData = new FormData();
+      formData.append('access_key', 'YOUR_WEB3FORMS_KEY');  Replace with actual key from web3forms.com
+      formData.append('subject', `New Smart Home Enquiry from ${fname} ${lname} – AmiBoa`);
+      formData.append('from_name', 'AmiBoa Website');
+      formData.append('to', 'canyoujerry@gmail.com');
+      formData.append('name', `${fname} ${lname}`);
+      formData.append('email', femail);
+      formData.append('phone', fphone  'Not provided');
+      formData.append('service', fservice  'Not specified');
+      formData.append('message', fmessage);
+      formData.append('redirect', 'false');
 
-                const res = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                const json = await res.json();
+      const res = await fetch('httpsapi.web3forms.comsubmit', { method 'POST', body formData });
+      const json = await res.json();
 
-                if (json.success) {
-                    showSuccess();
-                    return;
-                }
-            } catch (e) {
-                /* fallthrough to mailto */ }
+      if (json.success) {
+        showSuccess();
+        return;
+      }
+    } catch(e) {  fallthrough to mailto  }
 
-            /* Fallback: open email client */
-            const body = encodeURIComponent(
-                `Name: ${fname} ${lname}\nEmail: ${femail}\nPhone: ${fphone || 'N/A'}\nService: ${fservice || 'N/A'}\n\nMessage:\n${fmessage}`
-            );
-            const subject = encodeURIComponent(`New Smart Home Enquiry from ${fname} ${lname} – AmiBoa`);
-            window.location.href = `mailto:canyoujerry@gmail.com?subject=${subject}&body=${body}`;
-            showSuccess();
-        }
+     Fallback open email client 
+    const body = encodeURIComponent(
+      `Name ${fname} ${lname}nEmail ${femail}nPhone ${fphone  'NA'}nService ${fservice  'NA'}nnMessagen${fmessage}`
+    );
+    const subject = encodeURIComponent(`New Smart Home Enquiry from ${fname} ${lname} – AmiBoa`);
+    window.location.href = `mailtocanyoujerry@gmail.comsubject=${subject}&body=${body}`;
+    showSuccess();
+  }
 
-        function showSuccess() {
-            document.getElementById('successMsg').style.display = 'block';
-            document.getElementById('errorMsg').style.display = 'none';
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = '✓ Sent!';
-            btn.style.background = '#00d4aa';
-            // reset form
-            ['fname', 'lname', 'femail', 'fphone', 'fmessage'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('fservice').value = '';
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.textContent = 'Send Message →';
-                btn.style.background = '';
-                document.getElementById('successMsg').style.display = 'none';
-            }, 6000);
-        }
+  function showSuccess() {
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('errorMsg').style.display = 'none';
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '✓ Sent!';
+    btn.style.background = '#00d4aa';
+     reset form
+    ['fname','lname','femail','fphone','fmessage'].forEach(id = document.getElementById(id).value = '');
+    document.getElementById('fservice').value = '';
+    setTimeout(() = {
+      btn.disabled = false;
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      document.getElementById('successMsg').style.display = 'none';
+    }, 6000);
+  }
 
-        /* Prevent full page reload on all internal links */
-        document.querySelectorAll('a[href="#"]').forEach(a => {
-            a.addEventListener('click', e => e.preventDefault());
-        });
-    </script>
-</body>
-
-</html>
+   Prevent full page reload on all internal links 
+  document.querySelectorAll('a[href=#]').forEach(a = {
+    a.addEventListener('click', e = e.preventDefault());
+  });
+script
+body
+html
